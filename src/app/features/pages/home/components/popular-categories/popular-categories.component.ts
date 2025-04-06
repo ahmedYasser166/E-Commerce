@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CategorieService } from '../../../../../shared/services/Categorie/categorie.service';
+import { Icategorie } from '../../../../../shared/interfaces/icategorie';
 
 @Component({
   selector: 'app-popular-categories',
@@ -11,7 +12,7 @@ import { CategorieService } from '../../../../../shared/services/Categorie/categ
 export class PopularCategoriesComponent {
   private readonly categorieService = inject(CategorieService);
 
-  // categories!:Category[]
+  categories!:Icategorie[]
 
   customOptions: OwlOptions = {
     loop: true,
@@ -37,4 +38,26 @@ export class PopularCategoriesComponent {
     autoplayHoverPause: true,
     slideTransition: 'ease-in-out',
   };
+
+
+  ngOnInit(): void {
+    this.getCategories()
+  }
+  
+  getCategories(){
+  this.categorieService.getAllCategories().subscribe({
+  next: (res)=>{
+    console.log(res.data);
+    this.categories=res.data
+  },
+  error: (err)=>{
+    console.log("err");
+    
+  },
+  complete: ()=>{
+    console.log("complete categories");
+    
+  }
+  })
+  }
 }

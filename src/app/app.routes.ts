@@ -23,10 +23,11 @@ export const routes: Routes = [
     children: [
       { path: 'home', loadComponent: () => import('./features/pages/home/home.component').then(m => m.HomeComponent), title: 'Home' },
       { path: 'products', loadComponent: () => import('./features/pages/product/product.component').then(m => m.ProductComponent), title: 'Products' },
+      { path: 'products-details/:id', loadComponent: () => import('./features/pages/product-derails/product-derails.component').then(m => m.ProductDerailsComponent), title: 'products-details' },
       { path: 'categories', loadComponent: () => import('./features/pages/categories/categories.component').then(m => m.CategoriesComponent), title: 'Categories' },
       { path: 'brands', loadComponent: () => import('./features/pages/brands/brands.component').then(m => m.BrandsComponent), title: 'Brands' },
       { path: 'cart', loadComponent: () => import('./features/pages/cart/cart.component').then(m => m.CartComponent), title: 'Cart' },
-      { path: 'allorders', loadComponent: () => import('./features/pages/orders/orders.component').then(m => m.OrdersComponent), title: 'All Orders' },
+      { path: 'allorders', loadComponent: () => import('./features/pages/orders/component/orders/orders.component').then(m => m.OrdersComponent), title: 'All Orders' },
       { path: 'checkout', loadComponent: () => import('./features/pages/checkout/checkout.component').then(m => m.CheckoutComponent), title: 'Checkout' },
       
       // Not Found Route

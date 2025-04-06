@@ -1,1 +1,6 @@
-<p>product works!</p>
+<div class=" grid container mx-auto gap-7 mt-7 mb-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6  xl:grid-cols-6">
+    @for (product of products; track $index) {
+       <app-product-item [product]="product"  />
+    }
+    </div>
+    <!-- (addToCart)="addProductToCart($event)"  (AddToWishList)="AddProductToWishList($event)" -->
