@@ -3,7 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../core/services/product/product.service';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CommonModule } from '@angular/common';
-import { Iproduct } from '../../../shared/interfaces/iproduct';
+import { Product } from '../../../shared/interfaces/iproduct';
+import { CartService } from '../cart/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
+import { WishlistService } from '../wishlist/services/wishlist.service';
 
 @Component({
   selector: 'app-product-derails',
@@ -13,12 +16,13 @@ import { Iproduct } from '../../../shared/interfaces/iproduct';
 })
 export class ProductDerailsComponent {
   productId!: string | null;
-  productDetails: Iproduct = {} as Iproduct;
+  productDetails: Product = {} as Product;
 
-  // private readonly cartService = inject(CartService);
+  private readonly cartService = inject(CartService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly producService = inject(ProductService);
-  // private readonly toastr = inject(ToastrService);
+  private readonly toastr = inject(ToastrService);
+  private readonly wishlistService = inject(WishlistService)
 
   ngOnInit(): void {
     this.getProductId();
@@ -44,22 +48,39 @@ export class ProductDerailsComponent {
     });
   }
 
-  // onAddToCart(id: string) {
-  //   this.cartService.addProductToCart(id).subscribe({
-  //     next: (res) => {
-  //       this.showToaster('Product Added Successfully');
-  //       this.cartService.cartcounter.next(res.numOfCartItems);
-  //     },
+  onAddToCart(id: string) {
+    this.cartService.addProductToCart(id).subscribe({
+      next: (res) => {
+        this.showToaster('Product Added Successfully');
+        this.cartService.cartcounter.next(res.numOfCartItems);
+      },
  
-  //   });
-  // }
+    });
+  }
 
-  // showToaster(msg: string) {
-  //   this.toastr.success(msg, '', {
-  //     progressBar: true,
-  //     timeOut: 1500,
-  //   });
-  // }
+  AddProductToWishList(id: string) {
+    this.wishlistService.addProductToWishlist(id).subscribe({
+      next: (res) => {
+        console.log(' Product Added:', res);
+        this.showToaster('Product Added Successfully');
+  
+        this.wishlistService.getLoggedUserWishlist().subscribe({
+          next: (wishlist) => {
+            this.wishlistService.wishcounter.next(wishlist.count); 
+          }
+        });
+      },
+  
+    });
+  }
+
+
+  showToaster(msg: string) {
+    this.toastr.success(msg, '', {
+      progressBar: true,
+      timeOut: 1500,
+    });
+  }
 
   carouselOptions: OwlOptions = {
     loop: true, 

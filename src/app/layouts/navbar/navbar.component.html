@@ -36,7 +36,7 @@
             <div
               class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-main border-2 border-light rounded-full -top-4 -end-4 dark:border-gray-900"
             >
-              0
+              {{ navbarCounter }}
             </div>
           </a>
         </li>
@@ -49,7 +49,7 @@
             <div
               class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-main border-2 border-light rounded-full -top-4 -end-4 dark:border-gray-900"
             >
-              0
+              {{ navbarwishCounter }}
             </div>
           </a>
         </li>
@@ -57,6 +57,7 @@
           <a
             routerLink="/auth/logout"
             class="hover:text-main text-gray-500"
+            (click)="logout()"
             routerLinkActive="!text-main"
             >Logout <i class="fa-solid fa-arrow-right-from-bracket"></i
           ></a>

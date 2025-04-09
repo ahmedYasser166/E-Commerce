@@ -1,7 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Iproduct } from '../../../shared/interfaces/iproduct';
+import { Product } from '../../../shared/interfaces/iproduct';
 import { ProductService } from '../../../core/services/product/product.service';
 import { ProductItemComponent } from "../../../shared/ui/product-item/product-item.component";
+import { CartService } from '../cart/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
+import { WishlistService } from '../wishlist/services/wishlist.service';
 
 @Component({
   selector: 'app-product',
@@ -10,11 +13,11 @@ import { ProductItemComponent } from "../../../shared/ui/product-item/product-it
   styleUrl: './product.component.css'
 })
 export class ProductComponent {
-  products!: Iproduct[];
+  products!: Product[];
   private readonly _productService = inject(ProductService);
-  // private readonly cartService = inject(CartService)
-  // private readonly toastr = inject(ToastrService)
-  // private readonly wishlistService = inject(WishlistService)
+  private readonly cartService = inject(CartService)
+  private readonly toastr = inject(ToastrService)
+  private readonly wishlistService = inject(WishlistService)
 
   getproducts() {
     this._productService.getAllProduct().subscribe({
@@ -30,39 +33,39 @@ export class ProductComponent {
       },
     });
   }
-  // addProductToCart(id:string){
-  //   this.cartService.addProductToCart(id).subscribe({
-  //     next:(res)=>{
-  //       console.log(res);
-  //       this.showtoaster('Product Added Successfully')
-  //       this.cartService.cartcounter.next(res.numOfCartItems);
-  //     }
-  //   })
-  // }
+  addProductToCart(id:string){
+    this.cartService.addProductToCart(id).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.showtoaster('Product Added Successfully')
+        this.cartService.cartcounter.next(res.numOfCartItems);
+      }
+    })
+  }
   
 
-  // AddProductToWishList(id: string) {
-  //   this.wishlistService.addProductToWishlist(id).subscribe({
-  //     next: (res) => {
-  //       // console.log(' Product Added:', res);
-  //       this.showtoaster('Product Added Successfully');
+  AddProductToWishList(id: string) {
+    this.wishlistService.addProductToWishlist(id).subscribe({
+      next: (res) => {
+        console.log(' Product Added:', res);
+        this.showtoaster('Product Added Successfully');
   
-  //       this.wishlistService.getLoggedUserWishlist().subscribe({
-  //         next: (wishlist) => {
-  //           this.wishlistService.wishcounter.next(wishlist.count); 
-  //         }
-  //       });
-  //     },
+        this.wishlistService.getLoggedUserWishlist().subscribe({
+          next: (wishlist) => {
+            this.wishlistService.wishcounter.next(wishlist.count); 
+          }
+        });
+      },
   
-  //   });
-  // }
+    });
+  }
   
-  // showtoaster(msg:string) {
-  //   this.toastr.success(msg, '',{
-  //     progressBar : true,
-  //     timeOut:1500
-  //   });
-  // }
+  showtoaster(msg:string) {
+    this.toastr.success(msg, '',{
+      progressBar : true,
+      timeOut:1500
+    });
+  }
   ngOnInit(): void {
     this.getproducts();
   }

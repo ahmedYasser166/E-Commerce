@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Iproduct } from '../../interfaces/iproduct';
+import { Product } from '../../interfaces/iproduct';
 
 @Component({
   selector: 'app-product-item',
@@ -9,7 +9,7 @@ import { Iproduct } from '../../interfaces/iproduct';
   styleUrl: './product-item.component.css'
 })
 export class ProductItemComponent {
-  @Input() product! :Iproduct 
+  @Input() product! :Product 
   @Output() addToCart = new EventEmitter<string>()
   @Output() AddToWishList = new EventEmitter<string>()
   
